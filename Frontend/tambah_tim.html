@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Tim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Pencarian Tim</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="cari_tim.html">Cari Tim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cari_anggota.html">Cari Anggota</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container mt-5">
+    <h1>Tambah Tim</h1>
+    <form id="formTim">
+      <div class="mb-3">
+        <label for="judulPost" class="form-label">Judul Post</label>
+        <input type="text" class="form-control" id="judulPost" placeholder="Masukkan judul post" required />
+      </div>
+      <div class="mb-3">
+        <label for="bidangKompetisi" class="form-label">Bidang Kompetisi</label>
+        <select class="form-control" id="bidangKompetisi">
+            <option value="" selected disabled>Pilih Bidang</option>
+            <option value="PKM-K">PKM-K</option>
+            <option value="PKM-PM">PKM-PM</option>
+            <option value="PKM-PI">PKM-PI</option>
+            <option value="PKM-KC">PKM-KC</option>
+            <option value="PKM-KI">PKM-KI</option>
+            <option value="PKM-RE">PKM-RE</option>
+            <option value="PKM-RSH">PKM-RSH</option>
+            <option value="PKM-VGK">PKM-VGK</option>
+            <option value="PKM-AI">PKM-AI</option>
+            <option value="PKM-GFT">PKM-GFT</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="jumlahAnggota" class="form-label">Jumlah Anggota yang Dibutuhkan</label>
+        <input type="number" class="form-control" id="jumlahAnggota" placeholder="Masukkan jumlah anggota yang dibutuhkan" required />
+      </div>
+      <div class="mb-3">
+        <label for="kontak" class="form-label">Kontak</label>
+        <input type="text" class="form-control" id="kontak" placeholder="Masukkan kontak yang bisa dihubungi" required />
+      </div>
+      <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-control" id="status">
+          <option value="Belum Terpenuhi" selected>Belum Terpenuhi</option>
+          <option value="Sudah Terpenuhi">Sudah Terpenuhi</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Tambah Tim</button>
+    </form>
+  </div>
+
+  <!-- Script Tambah Tim -->
+  <script>
+    document.getElementById("formTim").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const judulPost = document.getElementById("judulPost").value;
+      const bidangKompetisi = document.getElementById("bidangKompetisi").value;
+      const jumlahAnggota = document.getElementById("jumlahAnggota").value;
+      const kontak = document.getElementById("kontak").value;
+      const status = document.getElementById("status").value;
+
+      fetch("http://localhost:3000/api/cari-tim", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "Judul Post": judulPost,
+          "Bidang Kompetisi": bidangKompetisi,
+          "Jumlah Anggota yang Dibutuhkan": jumlahAnggota,
+          Kontak: kontak,
+          Status: status,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          window.location.href = "cari_tim.html"; // Redirect ke halaman Cari Tim
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+  </script>
+</body>
+</html>

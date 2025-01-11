@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Anggota</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Pencarian Tim</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="cari_tim.html">Cari Tim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cari_anggota.html">Cari Anggota</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container mt-5">
+    <h1>Tambah Anggota</h1>
+    <form id="formAnggota">
+      <div class="mb-3">
+        <label for="namaMahasiswa" class="form-label">Nama Mahasiswa</label>
+        <input type="text" class="form-control" id="namaMahasiswa" placeholder="Masukkan nama mahasiswa" required />
+      </div>
+      <div class="mb-3">
+        <label for="departemen" class="form-label">Departemen</label>
+        <input type="text" class="form-control" id="departemen" placeholder="Masukkan departemen" required />
+      </div>
+      <div class="mb-3">
+        <label for="angkatan" class="form-label">Angkatan</label>
+        <select class="form-control" id="angkatan">
+            <option value="" selected disabled>Pilih Angkatan</option>
+            <option value="PKM-K">2021</option>
+            <option value="PKM-PM">2022</option>
+            <option value="PKM-PI">2023</option>
+            <option value="PKM-KC">2024</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="skill" class="form-label">Skill</label>
+        <input type="text" class="form-control" id="skill" placeholder="Masukkan skill" required />
+      </div>
+      <div class="mb-3">
+        <label for="pengalaman" class="form-label">Pengalaman</label>
+        <textarea class="form-control" id="pengalaman" rows="3" placeholder="Masukkan pengalaman" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="kontak" class="form-label">Kontak</label>
+        <input type="text" class="form-control" id="kontak" placeholder="Masukkan kontak yang dapat dihubungi" required />
+      </div>
+      <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-control" id="status">
+          <option value="Tersedia" selected>Belum Memiliki Tim</option>
+          <option value="Tidak Tersedia">Sudah Memiliki Tim</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Tambah Anggota</button>
+    </form>
+  </div>
+
+  <!-- Script Tambah Anggota -->
+  <script>
+    document.getElementById("formAnggota").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const namaMahasiswa = document.getElementById("namaMahasiswa").value;
+      const departemen = document.getElementById("departemen").value;
+      const angkatan = document.getElementById("angkatan").value;
+      const skill = document.getElementById("skill").value;
+      const pengalaman = document.getElementById("pengalaman").value;
+      const kontak = document.getElementById("kontak").value;
+      const status = document.getElementById("status").value;
+
+      fetch("http://localhost:3000/api/cari-anggota", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nama_mahasiswa: namaMahasiswa,
+          departemen: departemen,
+          angkatan: angkatan,
+          skill: skill,
+          pengalaman: pengalaman,
+          kontak: kontak,
+          status: status,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          window.location.href = "cari_anggota.html"; // Redirect ke halaman Cari Anggota
+        })
+        .catch((error) => console.error("Error:", error));
+    });
+  </script>
+</body>
+</html>
