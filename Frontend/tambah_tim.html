@@ -86,11 +86,11 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "Judul Post": judulPost,
-          "Bidang Kompetisi": bidangKompetisi,
-          "Jumlah Anggota yang Dibutuhkan": jumlahAnggota,
-          Kontak: kontak,
-          Status: status,
+          judul_post: judulPost,
+          bidang_kompetisi: bidangKompetisi,
+          jumlah_anggota_dibutuhkan: jumlahAnggota,
+          kontak: kontak,
+          status: status,
         }),
       })
         .then((response) => response.json())

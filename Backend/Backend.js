@@ -11,7 +11,7 @@ app.use(express.json());
 const pool = createPool({
   host: "localhost",
   user: "root",
-  password: "root",
+  password: "",
   database: "pencarian_tim",
   connectionLimit: 10
 });
@@ -30,12 +30,12 @@ app.get("/api/cari-tim", (req, res) => {
 
 // **Endpoint POST untuk tabel Tim**
 app.post("/api/cari-tim", (req, res) => {
-  const { judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, contact, status } = req.body;
+  const { judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, kontak, status } = req.body;
   const query =
-    "INSERT INTO tim (judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, contact, status) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO tim (judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, kontak, status) VALUES (?, ?, ?, ?, ?)";
   pool.query(
     query,
-    [judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, contact, status || "Belum Terpenuhi"],
+    [judul_post, bidang_kompetisi, jumlah_anggota_dibutuhkan, kontak, status || "Belum Terpenuhi"],
     (err, result) => {
       if (err) {
         console.error(err);
@@ -46,9 +46,9 @@ app.post("/api/cari-tim", (req, res) => {
   );
 });
 
-// **Endpoint GET untuk tabel Mahasiswa**
-app.get("/api/cari-mahasiswa", (req, res) => {
-  const query = "SELECT * FROM mahasiswa";
+// **Endpoint GET untuk tabel Anggota**
+app.get("/api/cari-anggota", (req, res) => {
+  const query = "SELECT * FROM anggota";
   pool.query(query, (err, results) => {
     if (err) {
       console.error(err);
@@ -58,14 +58,14 @@ app.get("/api/cari-mahasiswa", (req, res) => {
   });
 });
 
-// **Endpoint POST untuk tabel Mahasiswa**
-app.post("/api/cari-mahasiswa", (req, res) => {
-  const { nama_mahasiswa, departemen, skill, pengalaman, kontak, status } = req.body;
+// **Endpoint POST untuk tabel Anggota**
+app.post("/api/cari-anggota", (req, res) => {
+  const { nama_mahasiswa, departemen, angkatan, skill, pengalaman, kontak, status } = req.body;
   const query =
-    "INSERT INTO mahasiswa (nama_mahasiswa, departemen, skill, pengalaman, kontak, status) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO anggota (nama_mahasiswa, departemen, angkatan, skill, pengalaman, kontak, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
   pool.query(
     query,
-    [nama_mahasiswa, departemen, skill, pengalaman, kontak, status || "Belum Memiliki Tim"],
+    [nama_mahasiswa, departemen, angkatan, skill, pengalaman, kontak, status || "Belum Memiliki Tim"],
     (err, result) => {
       if (err) {
         console.error(err);
